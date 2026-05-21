@@ -29,11 +29,21 @@ const HEADERS = [
   'Link Bukti Bayar'
 ];
 
+function parsePayload(e) {
+  if (e.postData && e.postData.contents) {
+    return JSON.parse(e.postData.contents);
+  }
+  if (e.parameter && e.parameter.data) {
+    return JSON.parse(e.parameter.data);
+  }
+  throw new Error('Tidak ada data POST');
+}
+
 function doPost(e) {
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(30000);
-    const payload = JSON.parse(e.postData.contents);
+    const payload = parsePayload(e);
     const sheet = getSheet();
     ensureHeaders(sheet);
 

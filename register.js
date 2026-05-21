@@ -2,8 +2,12 @@
   // REGISTRATION MODAL SYSTEM
   // ============================================================
 
-  // Ganti dengan URL Web App dari Google Apps Script (Deploy → Web app → /exec)
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbyqC7CBMocnTthTT-Gx0iB2ijgc5SVoTXZ_YQbqT58oY9InIkxGNrGqN3v9v553NS9d/exec';
+  // URL Web App dari Google Apps Script (Deploy → Web app → salin URL /exec saja, sekali)
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqC7CBMocnTthTT-Gx0iB2ijgc5SVoTXZ_YQbqT58oY9InIkxGNrGqN3v9v553NS9d/exec';
+
+  function isValidScriptUrl(url) {
+    return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url);
+  }
 
   (function() {
     const overlay   = document.getElementById('reg-overlay');
@@ -270,18 +274,52 @@
       btnBack.disabled = false;
     }
 
-    async function submitToGoogleSheets(payload) {
-      const res = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(payload)
+    /** Form POST ke iframe — menghindari CORS "Failed to fetch" dari GitHub Pages */
+    function submitToGoogleSheets(payload) {
+      return new Promise((resolve, reject) => {
+        const iframeName = 'igita-gs-frame';
+        let iframe = document.getElementById(iframeName);
+        if (!iframe) {
+          iframe = document.createElement('iframe');
+          iframe.id = iframeName;
+          iframe.name = iframeName;
+          iframe.setAttribute('title', 'Pengiriman pendaftaran');
+          iframe.style.cssText = 'position:absolute;width:0;height:0;border:0;visibility:hidden';
+          document.body.appendChild(iframe);
+        }
+
+        let form = document.getElementById('igita-gs-form');
+        if (!form) {
+          form = document.createElement('form');
+          form.id = 'igita-gs-form';
+          form.method = 'POST';
+          form.target = iframeName;
+          form.acceptCharset = 'UTF-8';
+          form.style.display = 'none';
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = 'data';
+          input.id = 'igita-gs-payload';
+          form.appendChild(input);
+          document.body.appendChild(form);
+        }
+
+        form.action = GOOGLE_SCRIPT_URL;
+        document.getElementById('igita-gs-payload').value = JSON.stringify(payload);
+
+        let done = false;
+        const finish = (ok, err) => {
+          if (done) return;
+          done = true;
+          clearTimeout(timer);
+          ok ? resolve({ ok: true }) : reject(err);
+        };
+
+        iframe.onload = () => finish(true);
+        const timer = setTimeout(() => finish(true), 15000);
+
+        form.submit();
       });
-      const text = await res.text();
-      try {
-        return JSON.parse(text);
-      } catch {
-        return { ok: res.ok };
-      }
     }
 
     btnSubmit.addEventListener('click', async () => {
@@ -289,6 +327,10 @@
 
       if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('GANTI_DENGAN_ID')) {
         alert('URL Google Apps Script belum diatur. Buka register.js dan isi GOOGLE_SCRIPT_URL dengan URL Web App Anda.');
+        return;
+      }
+      if (!isValidScriptUrl(GOOGLE_SCRIPT_URL)) {
+        alert('URL Apps Script tidak valid. Salin hanya satu URL lengkap yang berakhiran /exec (jangan tempel dua kali).');
         return;
       }
 
