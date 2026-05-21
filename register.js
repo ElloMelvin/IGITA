@@ -1,6 +1,10 @@
 // ============================================================
   // REGISTRATION MODAL SYSTEM
   // ============================================================
+
+  // Ganti dengan URL Web App dari Google Apps Script (Deploy → Web app → /exec)
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/https://script.google.com/macros/s/AKfycbyqC7CBMocnTthTT-Gx0iB2ijgc5SVoTXZ_YQbqT58oY9InIkxGNrGqN3v9v553NS9d/exec';
+
   (function() {
     const overlay   = document.getElementById('reg-overlay');
     const modal     = document.getElementById('reg-modal');
@@ -198,7 +202,7 @@
       }
     });
 
-    // ---- Submit ----
+    // ---- Submit → Google Spreadsheet (via Apps Script) ----
     function generateCode() {
       const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
       let code = 'IGITA-2026-';
@@ -206,36 +210,125 @@
       return code;
     }
 
-    btnSubmit.addEventListener('click', () => {
+    function val(id) {
+      return (document.getElementById(id)?.value || '').trim();
+    }
+
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = reader.result;
+          const base64 = String(dataUrl).split(',')[1] || '';
+          resolve(base64);
+        };
+        reader.onerror = () => reject(new Error('Gagal membaca file bukti bayar.'));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function buildPayload(kode, bukti) {
+      const kat = document.querySelector('input[name="kategori"]:checked')?.value || '';
+      const katLabel = kat === 'internal' ? 'Internal – Mahasiswa KKG' : 'Eksternal – SMA/SMK';
+      const institusi = kat === 'internal' ? 'Internal KKG' : val('asal-institusi');
+
+      return {
+        kode,
+        kategori: katLabel,
+        namaTim: val('nama-tim'),
+        institusi,
+        m1Nama: val('m1-nama'), m1Email: val('m1-email'), m1Hp: val('m1-hp'), m1Ig: val('m1-ig'),
+        m2Nama: val('m2-nama'), m2Email: val('m2-email'), m2Hp: val('m2-hp'), m2Ig: val('m2-ig'),
+        m3Nama: val('m3-nama'), m3Email: val('m3-email'), m3Hp: val('m3-hp'), m3Ig: val('m3-ig'),
+        m4Nama: val('m4-nama'), m4Email: val('m4-email'), m4Hp: val('m4-hp'), m4Ig: val('m4-ig'),
+        m5Nama: val('m5-nama'), m5Email: val('m5-email'), m5Hp: val('m5-hp'), m5Ig: val('m5-ig'),
+        buktiBase64: bukti.base64,
+        buktiName: bukti.name,
+        buktiMime: bukti.mime
+      };
+    }
+
+    function showSuccessScreen(kode, kat) {
+      const katLabel = kat === 'internal' ? 'Internal – Mahasiswa KKG' : 'Eksternal – SMA/SMK';
+
+      document.getElementById('success-code').textContent = kode;
+      document.getElementById('suc-team').textContent  = val('nama-tim');
+      document.getElementById('suc-cat').textContent   = katLabel;
+      document.getElementById('suc-inst').textContent  = kat === 'internal' ? 'Internal KKG' : val('asal-institusi');
+      document.getElementById('suc-email').textContent = val('m1-email');
+
+      document.querySelectorAll('.reg-panel').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+      document.getElementById('reg-steps').style.display = 'none';
+      regFooter.style.display = 'none';
+      document.getElementById('reg-success').classList.add('active');
+      modal.scrollTop = 0;
+    }
+
+    function endSubmitLoading() {
+      btnSubmit.classList.remove('loading');
+      btnSubmit.disabled = false;
+      btnBack.disabled = false;
+    }
+
+    async function submitToGoogleSheets(payload) {
+      const res = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      const text = await res.text();
+      try {
+        return JSON.parse(text);
+      } catch {
+        return { ok: res.ok };
+      }
+    }
+
+    btnSubmit.addEventListener('click', async () => {
       if (!validateStep3()) return;
 
-      // Loading state
+      if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('GANTI_DENGAN_ID')) {
+        alert('URL Google Apps Script belum diatur. Buka register.js dan isi GOOGLE_SCRIPT_URL dengan URL Web App Anda.');
+        return;
+      }
+
+      const fileInput = document.getElementById('bukti-bayar');
+      const file = fileInput.files[0];
+      const maxBytes = 2 * 1024 * 1024;
+      if (file.size > maxBytes) {
+        setInputErr('bukti-bayar', true);
+        showErr('err-bukti-bayar', true);
+        document.getElementById('err-bukti-bayar').textContent = 'Ukuran file maksimal 2MB.';
+        return;
+      }
+      document.getElementById('err-bukti-bayar').textContent = 'Bukti pembayaran wajib diunggah.';
+
       btnSubmit.classList.add('loading');
       btnSubmit.disabled = true;
       btnBack.disabled = true;
 
-      // Simulate network delay (replace with real fetch to your backend)
-      setTimeout(() => {
-        const kat = document.querySelector('input[name="kategori"]:checked')?.value;
-        const katLabel = kat === 'internal' ? 'Internal – Mahasiswa KKG' : 'Eksternal – SMA/SMK';
+      const kode = generateCode();
+      const kat = document.querySelector('input[name="kategori"]:checked')?.value;
 
-        // Populate success screen
-        document.getElementById('success-code').textContent = generateCode();
-        document.getElementById('suc-team').textContent  = document.getElementById('nama-tim').value.trim();
-        document.getElementById('suc-cat').textContent   = katLabel;
-        document.getElementById('suc-inst').textContent  = kat === 'internal' ? 'Internal KKG' : document.getElementById('asal-institusi').value.trim();
-        document.getElementById('suc-email').textContent = document.getElementById('m1-email').value.trim();
+      try {
+        const base64 = await readFileAsBase64(file);
+        const payload = buildPayload(kode, {
+          base64,
+          name: file.name,
+          mime: file.type || 'application/octet-stream'
+        });
 
-        // Hide form panels & footer
-        document.querySelectorAll('.reg-panel').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
-        document.getElementById('reg-steps').style.display = 'none';
-        regFooter.style.display = 'none';
+        const result = await submitToGoogleSheets(payload);
+        if (!result.ok) {
+          throw new Error(result.error || 'Server menolak pendaftaran.');
+        }
 
-        // Show success
-        document.getElementById('reg-success').classList.add('active');
-        modal.scrollTop = 0;
-
-      }, 1800);
+        showSuccessScreen(kode, kat);
+      } catch (err) {
+        console.error(err);
+        alert('Pendaftaran gagal dikirim. Periksa koneksi internet dan URL Apps Script, lalu coba lagi.\n\n' + (err.message || err));
+        endSubmitLoading();
+      }
     });
 
     // On close reset
