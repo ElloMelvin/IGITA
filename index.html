@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IGITA 2026 | Informatics Group Innovation & Technology Award</title>
+  <meta name="description" content="IGITA 2026: Kompetisi pengembangan proyek digital berbasis Smart Agriculture. Terbuka untuk Mahasiswa KKG & Siswa SMA/SMK. Daftarkan timmu sekarang!">
+  <meta property="og:title" content="IGITA 2026 | Smart Agriculture Innovation">
+  <meta property="og:description" content="Kompetisi inovasi teknologi pertanian cerdas. 11 Agustus – 16 September 2026. Kuota terbatas 20 tim.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#080f0b">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Langsung ke konten</a>
+
+  <div class="global-bg" aria-hidden="true">
+    <div class="global-grid"></div>
+    <div class="global-glow glow-1"></div>
+    <div class="global-glow glow-2"></div>
+    <canvas id="particle-canvas"></canvas>
+  </div>
+
+  <div class="status-bar" aria-hidden="true">
+    <div class="status-dot"></div>
+    <div class="status-scroll">
+      <span>IGITA 2026 &nbsp;·&nbsp; SMART AGRICULTURE &nbsp;·&nbsp; INTERNAL (KKG) &amp; EKSTERNAL (SMA/SMK) &nbsp;·&nbsp; 11 AGUSTUS – 16 SEPTEMBER 2026 &nbsp;·&nbsp; KUOTA 20 TIM &nbsp;·&nbsp;</span>
+      <span>IGITA 2026 &nbsp;·&nbsp; SMART AGRICULTURE &nbsp;·&nbsp; INTERNAL (KKG) &amp; EKSTERNAL (SMA/SMK) &nbsp;·&nbsp; 11 AGUSTUS – 16 SEPTEMBER 2026 &nbsp;·&nbsp; KUOTA 20 TIM &nbsp;·&nbsp;</span>
+    </div>
+  </div>
+
+  <nav id="navbar" aria-label="Navigasi Utama">
+    <a href="#" class="nav-logo">
+      <div class="dot"></div>
+      IGITA<span>2026</span>
+    </a>
+    <div class="nav-links">
+      <a href="#concept">Konsep</a>
+      <a href="#categories">Kategori</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#rules">Ketentuan</a>
+      <a href="#contact">Kontak</a>
+    </div>
+    <a href="daftar.html" class="nav-cta">Daftar Tim</a>
+    <button class="nav-burger" id="nav-burger" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-nav" type="button">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Navigasi Mobile" aria-hidden="true">
+    <a href="#concept">Konsep</a>
+    <a href="#categories">Kategori</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#rules">Ketentuan</a>
+    <a href="#contact">Kontak</a>
+    <a href="daftar.html" class="mobile-cta">Daftar Tim →</a>
+  </nav>
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">Informatics Group Innovation &amp; Technology Award</div>
+        <h1 class="hero-title">
+          <span class="line1">SMART</span>
+          <span class="line2">AGRICULTURE</span>
+          <span class="line3">INNOVATION</span>
+        </h1>
+        <p class="hero-sub">Kembangkan proyek atau produk digital yang menjawab tantangan pertanian modern. Kompetisi satu bulan penuh inovasi, presentasi, dan pameran karya.</p>
+        <div class="hero-tags">
+          <div class="hero-tag">// Digital Project</div>
+          <div class="hero-tag">// Smart Farming</div>
+          <div class="hero-tag">// Internal &amp; Eksternal</div>
+          <div class="hero-tag">// Impact Driven</div>
+        </div>
+        <div class="hero-actions">
+          <a href="daftar.html" class="btn-primary">Daftarkan Tim →</a>
+          <a href="#timeline" class="btn-secondary">Lihat Jadwal ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="countdown-section">
+      <div class="countdown-label">Pembukaan &amp; Technical Meeting dalam</div>
+      <div class="countdown-wrap">
+        <div class="count-block"><div class="count-num" id="cd-days">--</div><div class="count-label">Hari</div></div>
+        <div class="count-sep">:</div>
+        <div class="count-block"><div class="count-num" id="cd-hours">--</div><div class="count-label">Jam</div></div>
+        <div class="count-sep">:</div>
+        <div class="count-block"><div class="count-num" id="cd-mins">--</div><div class="count-label">Menit</div></div>
+        <div class="count-sep">:</div>
+        <div class="count-block"><div class="count-num" id="cd-secs">--</div><div class="count-label">Detik</div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <section id="concept">
+      <div class="section-label">Tentang Acara</div>
+      <h2 class="section-title">Konsep <em>IGITA 2026</em></h2>
+      <div class="concept-grid reveal">
+        <div class="concept-card">
+          <div class="icon-box">
+            <svg class="icon-modern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22c4-4 8-7.5 8-12a8 8 0 1 0-16 0c0 4.5 4 8 8 12z"/><path d="M12 12V2"/><path d="M8 8c2 2 4 3 4 4"/><path d="M16 8c-2 2-4 3-4 4"/><circle cx="12" cy="6" r="1.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div class="card-title">Studi Kasus Nyata</div>
+          <div class="card-desc">Fokus pada pengembangan solusi digital untuk sektor pertanian cerdas. Karya harus relevan, terukur, dan siap diimplementasikan.</div>
+        </div>
+        <div class="concept-card">
+          <div class="icon-box">
+            <svg class="icon-modern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><circle cx="12" cy="16" r="3"/><path d="M12 13v3"/>
+            </svg>
+          </div>
+          <div class="card-title">Durasi 1 Bulan</div>
+          <div class="card-desc">Dimulai dari Technical Meeting online, masa pengerjaan proyek, hingga rangkaian presentasi, pameran, dan awarding offline.</div>
+        </div>
+        <div class="concept-card">
+          <div class="icon-box">
+            <svg class="icon-modern" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/><path d="M12 11v3"/><circle cx="12" cy="7" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <div class="card-title">Kompetisi Terstruktur</div>
+          <div class="card-desc">Dua kategori terpisah dengan kuota ketat. Penilaian berbasis inovasi, kelayakan teknis, dan dampak sosial teknologi.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="categories">
+      <div class="section-label">Kategori Peserta</div>
+      <h2 class="section-title">Pilih <em>Jalur</em> Kompetisi</h2>
+      <div class="cat-grid reveal">
+        <div class="cat-card internal">
+          <div class="cat-badge">INTERNAL</div>
+          <div class="cat-title">Mahasiswa KKG</div>
+          <div class="cat-desc">Khusus mahasiswa aktif Kelompok Keahlian/Gerbang (KKG). Presentasi pada Day 1 (14 September).</div>
+          <div class="cat-quota">Kuota: 10 Tim</div>
+        </div>
+        <div class="cat-card external">
+          <div class="cat-badge">EKSTERNAL</div>
+          <div class="cat-title">SMA / SMK Sederajat</div>
+          <div class="cat-desc">Terbuka untuk pelajar tingkat menengah. Presentasi pada Day 2 (15 September) dengan standar penilaian setara.</div>
+          <div class="cat-quota">Kuota: 10 Tim</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="timeline-section" id="timeline">
+      <div class="section-label">Jadwal Kegiatan</div>
+      <h2 class="section-title">Timeline <em>Kompetisi</em></h2>
+      <div class="timeline reveal">
+        <div class="tl-item" data-start="2026-08-11" data-end="2026-08-11">
+          <div class="tl-dot">11<br>AGU</div>
+          <div class="tl-content">
+            <div class="tl-date">11 Agustus 2026</div>
+            <div class="tl-title">Pembukaan &amp; Technical Meeting (Online)</div>
+            <div class="tl-status">Penjelasan materi, kategori &amp; jadwal presentasi</div>
+          </div>
+        </div>
+        <div class="tl-item" data-start="2026-08-12" data-end="2026-09-13">
+          <div class="tl-dot">12 AGU<br>–<br>13 SEP</div>
+          <div class="tl-content">
+            <div class="tl-date">12 Agustus – 13 September 2026</div>
+            <div class="tl-title">Masa Pengerjaan Proyek (Pre-Event)</div>
+            <div class="tl-status">Peserta mengembangkan produk/karya digital</div>
+          </div>
+        </div>
+        <div class="tl-item" data-start="2026-09-14" data-end="2026-09-14">
+          <div class="tl-dot">14<br>SEP</div>
+          <div class="tl-content">
+            <div class="tl-date">14 September 2026 (Day 1 – Lt. 4)</div>
+            <div class="tl-title">Seminar, Presentasi KKG &amp; Pameran</div>
+            <div class="tl-status">2 Pembicara + Live Music Band Kampus</div>
+          </div>
+        </div>
+        <div class="tl-item" data-start="2026-09-15" data-end="2026-09-15">
+          <div class="tl-dot">15<br>SEP</div>
+          <div class="tl-content">
+            <div class="tl-date">15 September 2026 (Day 2 – Lt. 4)</div>
+            <div class="tl-title">Presentasi SMA/SMK &amp; Pameran</div>
+            <div class="tl-status">Kategori Eksternal + Live Music Band Kampus</div>
+          </div>
+        </div>
+        <div class="tl-item" data-start="2026-09-16" data-end="2026-09-16">
+          <div class="tl-dot">16<br>SEP</div>
+          <div class="tl-content">
+            <div class="tl-date">16 September 2026 (Day 3 – Lt. 2)</div>
+            <div class="tl-title">Awarding &amp; Closing Ceremony</div>
+            <div class="tl-status">Pengumuman Juara 1, 2, 3 &amp; Penyerahan Hadiah</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="rules">
+      <div class="section-label">Regulasi Tim</div>
+      <h2 class="section-title">Ketentuan <em>Peserta</em></h2>
+      <div class="rules-grid reveal">
+        <div class="rule-card">
+          <div class="rule-num">01</div>
+          <div class="rule-title">Komposisi Tetap</div>
+          <div class="rule-desc">Setiap tim wajib beranggotakan tepat <strong>4 orang</strong>. Tidak boleh kurang atau lebih.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-num">02</div>
+          <div class="rule-title">Kuota Terbatas</div>
+          <div class="rule-desc">Total <strong>20 tim</strong> (10 Internal KKG, 10 Eksternal SMA/SMK). Pendaftaran ditutup saat kuota penuh.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-num">03</div>
+          <div class="rule-title">Kehadiran Wajib</div>
+          <div class="rule-desc">Seluruh anggota tim wajib hadir lengkap saat presentasi. Ketidakhadiran tanpa prosedur = <strong>diskualifikasi</strong>.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-num">04</div>
+          <div class="rule-title">Dispensasi H-2</div>
+          <div class="rule-desc">Izin ketidakhadiran maksimal dilaporkan <strong>H-2</strong>. Tim tetap boleh presentasi minimal dengan <strong>3 orang</strong>.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="contact-section" id="contact">
+      <div class="section-label">Lokasi &amp; Kontak</div>
+      <h2 class="section-title">Tempat <em>Pelaksanaan</em></h2>
+      <div class="contact-card reveal">
+        <div>
+          <div class="contact-name">Hall D &amp; Area Kampus</div>
+          <div class="contact-role">Lt. 2 (Awarding) · Lt. 4 (Seminar, Presentasi &amp; Pameran)</div>
+          <div class="contact-links">
+            <a href="#" class="contact-link">
+              <span class="platform">WhatsApp</span>
+              <span>+62 XXX-XXXX-XXXX (CP 1)</span>
+            </a>
+            <a href="#" class="contact-link">
+              <span class="platform">Instagram</span>
+              <span>@igita.official</span>
+            </a>
+            <a href="#" class="contact-link">
+              <span class="platform">Email</span>
+              <span>igita@informatics.ac.id</span>
+            </a>
+          </div>
+        </div>
+        <div class="contact-cta">
+          <div class="cta-big">Siap <em>Berkarya?</em></div>
+          <div class="cta-sub">Amankan slot timmu sebelum kuota 20 tim terpenuhi. Inovasi pertanian cerdas menanti eksekusimu.</div>
+          <a href="daftar.html" class="btn-primary cta-btn">Form Pendaftaran →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand">IGITA<span>2026</span></div>
+    <div class="footer-links">
+      <a href="#concept">Konsep</a>
+      <a href="#categories">Kategori</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#rules">Ketentuan</a>
+      <a href="#">Rulebook PDF</a>
+    </div>
+    <div class="footer-copy">© 2026 IGITA · Informatics Group</div>
+  </footer>
+
+  
+
+  <script src="script.js"></script>
+</body>
+</html>

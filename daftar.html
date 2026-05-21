@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pendaftaran Tim | IGITA 2026</title>
+  <meta name="theme-color" content="#080f0b">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { padding-top: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg); }
+    .reg-overlay { position: static; opacity: 1; pointer-events: all; background: transparent; padding: 40px 20px; width: 100%; display: flex; }
+    .reg-modal { transform: none !important; max-height: none; margin: 0 auto; }
+    .reg-close { display: none !important; }
+    .nav-logo-wrap { position: absolute; top: 24px; left: 24px; text-decoration: none; }
+    @media (max-width: 680px) {
+        .nav-logo-wrap { position: relative; top: 0; left: 0; margin-bottom: 20px; align-self: flex-start; margin-left: 20px; }
+        body { justify-content: flex-start; padding-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="global-bg" aria-hidden="true">
+    <div class="global-grid"></div>
+    <div class="global-glow glow-1"></div>
+    <div class="global-glow glow-2"></div>
+  </div>
+
+  <a href="index.html" class="nav-logo nav-logo-wrap">
+    <div class="dot"></div>
+    IGITA<span style="color: var(--accent);">2026</span>
+  </a>
+
+<!-- =============================================
+       REGISTRATION MODAL
+       ============================================= -->
+  <div class="reg-overlay" id="reg-overlay" role="dialog" aria-modal="true" aria-label="Form Pendaftaran IGITA 2026">
+    <div class="reg-modal" id="reg-modal">
+
+      <!-- Header -->
+      <div class="reg-header">
+        <div class="reg-header-left">
+          <div class="reg-title">Daftar Tim <span>IGITA 2026</span></div>
+          <div class="reg-subtitle">// Pendaftaran Resmi · Kuota Terbatas 20 Tim</div>
+        </div>
+        <button class="reg-close" id="reg-close-btn" aria-label="Tutup form pendaftaran">✕</button>
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="reg-steps" id="reg-steps" aria-label="Langkah pendaftaran">
+        <div class="reg-step active" data-step="1">
+          <div class="step-num">1</div>
+          <div class="step-label">Kategori & Tim</div>
+        </div>
+        <div class="step-connector" id="conn-1-2"></div>
+        <div class="reg-step" data-step="2">
+          <div class="step-num">2</div>
+          <div class="step-label">Data Anggota</div>
+        </div>
+        <div class="step-connector" id="conn-2-3"></div>
+        <div class="reg-step" data-step="3">
+          <div class="step-num">3</div>
+          <div class="step-label">Pembayaran & Kirim</div>
+        </div>
+      </div>
+
+      <!-- STEP 1: Kategori & Info Tim -->
+      <div class="reg-body">
+
+        <!-- STEP 1: Kategori & Info Tim -->
+        <div class="reg-panel active" id="panel-1">
+          <div class="quota-info">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+            <div class="quota-info-text">Kuota tersisa: <strong>Internal KKG: 10 slot</strong> · <strong>Eksternal SMA/SMK: 10 slot</strong>. Pendaftaran ditutup otomatis saat penuh.</div>
+          </div>
+
+          <div class="form-section-title">
+            <span class="sec-num">01</span>
+            Pilih Kategori Kompetisi
+          </div>
+
+          <div class="cat-select-grid">
+            <label class="cat-select-card" id="card-internal">
+              <input type="radio" name="kategori" value="internal" id="radio-internal">
+              <div class="cat-check"></div>
+              <div class="cat-card-badge">INTERNAL</div>
+              <div class="cat-card-title">Mahasiswa KKG</div>
+              <div class="cat-card-desc">Mahasiswa aktif Kelompok Keahlian/Gerbang. Presentasi 14 September.</div>
+            </label>
+            <label class="cat-select-card ext" id="card-external">
+              <input type="radio" name="kategori" value="external" id="radio-external">
+              <div class="cat-check"></div>
+              <div class="cat-card-badge">EKSTERNAL</div>
+              <div class="cat-card-title">SMA / SMK Sederajat</div>
+              <div class="cat-card-desc">Pelajar tingkat menengah. Presentasi 15 September.</div>
+            </label>
+          </div>
+          <div class="form-error" id="err-kategori">Silakan pilih kategori kompetisi.</div>
+
+          <div class="form-section-title">
+            <span class="sec-num">02</span>
+            Informasi Tim
+          </div>
+
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label" for="nama-tim">Nama Tim <span class="req">*</span></label>
+              <input type="text" class="form-input" id="nama-tim" placeholder="contoh: AgriTech Innovators" autocomplete="off">
+              <div class="form-error" id="err-nama-tim">Nama tim wajib diisi.</div>
+            </div>
+          </div>
+
+          <div class="form-row single" id="row-asal-institusi">
+            <div class="form-group">
+              <label class="form-label" for="asal-institusi">Asal Sekolah / Institusi <span class="req">*</span></label>
+              <input type="text" class="form-input" id="asal-institusi" placeholder="Nama universitas / sekolah" autocomplete="off">
+              <div class="form-error" id="err-asal-institusi">Asal institusi wajib diisi.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Data Anggota -->
+        <div class="reg-panel" id="panel-2">
+          <div class="form-section-title" style="margin-top:0">
+            <span class="sec-num">03</span>
+            Data Anggota Tim (4 Utama, 1 Cadangan)
+          </div>
+
+          <!-- Anggota 1 -->
+          <div class="member-card">
+            <div class="member-card-header">
+              <div class="member-badge leader">Ketua Tim</div>
+              <div class="member-title">Anggota 1</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m1-nama">Nama Lengkap <span class="req">*</span></label>
+                <input type="text" class="form-input" id="m1-nama" placeholder="Nama sesuai identitas">
+                <div class="form-error" id="err-m1-nama">Nama lengkap wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m1-email">Email Aktif <span class="req">*</span></label>
+                <input type="email" class="form-input" id="m1-email" placeholder="email@domain.com">
+                <div class="form-error" id="err-m1-email">Email valid wajib diisi.</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m1-hp">No. HP / WA <span class="req">*</span></label>
+                <input type="tel" class="form-input" id="m1-hp" placeholder="08xxxxxxxxxx">
+                <div class="form-error" id="err-m1-hp">Nomor HP wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m1-ig">User Instagram <span class="req">*</span></label>
+                <input type="text" class="form-input" id="m1-ig" placeholder="@username (untuk Twibbon)">
+                <div class="form-error" id="err-m1-ig">User Instagram wajib diisi.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Anggota 2 -->
+          <div class="member-card">
+            <div class="member-card-header">
+              <div class="member-badge">Anggota 2</div>
+              <div class="member-title">Anggota 2</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m2-nama">Nama Lengkap <span class="req">*</span></label>
+                <input type="text" class="form-input" id="m2-nama" placeholder="Nama sesuai identitas">
+                <div class="form-error" id="err-m2-nama">Nama lengkap wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m2-email">Email Aktif <span class="req">*</span></label>
+                <input type="email" class="form-input" id="m2-email" placeholder="email@domain.com">
+                <div class="form-error" id="err-m2-email">Email valid wajib diisi.</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m2-hp">No. HP / WA <span class="req">*</span></label>
+                <input type="tel" class="form-input" id="m2-hp" placeholder="08xxxxxxxxxx">
+                <div class="form-error" id="err-m2-hp">Nomor HP wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m2-ig">User Instagram <span class="req">*</span></label>
+                <input type="text" class="form-input" id="m2-ig" placeholder="@username (untuk Twibbon)">
+                <div class="form-error" id="err-m2-ig">User Instagram wajib diisi.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Anggota 3 -->
+          <div class="member-card">
+            <div class="member-card-header">
+              <div class="member-badge">Anggota 3</div>
+              <div class="member-title">Anggota 3</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m3-nama">Nama Lengkap <span class="req">*</span></label>
+                <input type="text" class="form-input" id="m3-nama" placeholder="Nama sesuai identitas">
+                <div class="form-error" id="err-m3-nama">Nama lengkap wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m3-email">Email Aktif <span class="req">*</span></label>
+                <input type="email" class="form-input" id="m3-email" placeholder="email@domain.com">
+                <div class="form-error" id="err-m3-email">Email valid wajib diisi.</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m3-hp">No. HP / WA <span class="req">*</span></label>
+                <input type="tel" class="form-input" id="m3-hp" placeholder="08xxxxxxxxxx">
+                <div class="form-error" id="err-m3-hp">Nomor HP wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m3-ig">User Instagram <span class="req">*</span></label>
+                <input type="text" class="form-input" id="m3-ig" placeholder="@username (untuk Twibbon)">
+                <div class="form-error" id="err-m3-ig">User Instagram wajib diisi.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Anggota 4 -->
+          <div class="member-card">
+            <div class="member-card-header">
+              <div class="member-badge">Anggota 4</div>
+              <div class="member-title">Anggota 4</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m4-nama">Nama Lengkap <span class="req">*</span></label>
+                <input type="text" class="form-input" id="m4-nama" placeholder="Nama sesuai identitas">
+                <div class="form-error" id="err-m4-nama">Nama lengkap wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m4-email">Email Aktif <span class="req">*</span></label>
+                <input type="email" class="form-input" id="m4-email" placeholder="email@domain.com">
+                <div class="form-error" id="err-m4-email">Email valid wajib diisi.</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m4-hp">No. HP / WA <span class="req">*</span></label>
+                <input type="tel" class="form-input" id="m4-hp" placeholder="08xxxxxxxxxx">
+                <div class="form-error" id="err-m4-hp">Nomor HP wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m4-ig">User Instagram <span class="req">*</span></label>
+                <input type="text" class="form-input" id="m4-ig" placeholder="@username (untuk Twibbon)">
+                <div class="form-error" id="err-m4-ig">User Instagram wajib diisi.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Anggota 5 -->
+          <div class="member-card">
+            <div class="member-card-header">
+              <div class="member-badge cadangan">Anggota Cadangan</div>
+              <div class="member-title">Anggota 5 (Cadangan - Opsional)</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m5-nama">Nama Lengkap </label>
+                <input type="text" class="form-input" id="m5-nama" placeholder="Nama sesuai identitas">
+                <div class="form-error" id="err-m5-nama">Nama lengkap wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m5-email">Email Aktif </label>
+                <input type="email" class="form-input" id="m5-email" placeholder="email@domain.com">
+                <div class="form-error" id="err-m5-email">Email valid wajib diisi.</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="m5-hp">No. HP / WA </label>
+                <input type="tel" class="form-input" id="m5-hp" placeholder="08xxxxxxxxxx">
+                <div class="form-error" id="err-m5-hp">Nomor HP wajib diisi.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="m5-ig">User Instagram </label>
+                <input type="text" class="form-input" id="m5-ig" placeholder="@username (untuk Twibbon)">
+                <div class="form-error" id="err-m5-ig">User Instagram wajib diisi.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- STEP 3: Submit -->
+        <div class="reg-panel" id="panel-3">
+          <div class="form-section-title" style="margin-top:0">
+            <span class="sec-num">04</span>
+            Bukti Pembayaran & Pengiriman
+          </div>
+
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label" for="bukti-bayar">Upload Bukti Pembayaran <span class="req">*</span></label>
+              <input type="file" class="form-input" id="bukti-bayar" accept="image/*,application/pdf" style="padding: 8px 14px;">
+              <div class="form-helper">Format: JPG, PNG, atau PDF. Maksimal 2MB.</div>
+              <div class="form-error" id="err-bukti-bayar">Bukti pembayaran wajib diunggah.</div>
+            </div>
+          </div>
+
+          <div class="form-section-title">
+            <span class="sec-num">05</span>
+            Persetujuan &amp; Pengiriman
+          </div>
+
+          <div class="form-agreement" id="agree-wrap">
+            <input type="checkbox" id="agree-check">
+            <label for="agree-check">Saya menyatakan bahwa seluruh informasi yang diisi adalah <strong>benar dan dapat dipertanggungjawabkan</strong>. Saya telah membaca dan menyetujui seluruh ketentuan IGITA 2026.</label>
+          </div>
+          <div class="form-error" id="err-agree">Anda harus menyetujui ketentuan untuk mendaftar.</div>
+        </div>
+
+        <!-- SUCCESS Panel -->
+        <div class="reg-success" id="reg-success">
+          <div class="success-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="success-title">Pendaftaran <span>Berhasil!</span></div>
+          <div class="success-sub">Tim kamu telah terdaftar di IGITA 2026. Simpan kode registrasi berikut dan cek email konfirmasi.</div>
+
+          <div class="success-code" id="success-code">IGITA-2026-XXXX</div>
+
+          <div class="success-info" id="success-info">
+            <div class="success-info-row">
+              <div class="success-info-label">Nama Tim</div>
+              <div class="success-info-val" id="suc-team">—</div>
+            </div>
+            <div class="success-info-row">
+              <div class="success-info-label">Kategori</div>
+              <div class="success-info-val" id="suc-cat">—</div>
+            </div>
+            <div class="success-info-row">
+              <div class="success-info-label">Institusi</div>
+              <div class="success-info-val" id="suc-inst">—</div>
+            </div>
+            <div class="success-info-row">
+              <div class="success-info-label">Email Ketua</div>
+              <div class="success-info-val" id="suc-email">—</div>
+            </div>
+          </div>
+
+          <div class="success-next-steps">
+            <div class="success-next-title">// Langkah Selanjutnya</div>
+            <div class="success-step">
+              <div class="success-step-num">1</div>
+              <div class="success-step-text"><strong>Cek email konfirmasi</strong> dari igita@informatics.ac.id dalam 1×24 jam.</div>
+            </div>
+            <div class="success-step">
+              <div class="success-step-num">2</div>
+              <div class="success-step-text">Bergabung ke <strong>grup WhatsApp resmi</strong> IGITA 2026 (link dikirim via email).</div>
+            </div>
+            <div class="success-step">
+              <div class="success-step-num">3</div>
+              <div class="success-step-text">Hadir pada <strong>Technical Meeting Online, 11 Agustus 2026</strong> pukul 08.00 WIB.</div>
+            </div>
+          </div>
+
+          <button class="btn-reg-close" id="btn-success-close">Selesai & Tutup</button>
+        </div>
+
+      </div><!-- Footer Nav -->
+      <div class="reg-footer" id="reg-footer">
+        <div class="reg-footer-left" id="step-indicator-text">Langkah 1 dari 3</div>
+        <div class="reg-footer-right">
+          <button class="btn-reg-back" id="btn-back" style="display:none">← Kembali</button>
+          <button class="btn-reg-next" id="btn-next">Lanjut →</button>
+          <button class="btn-reg-submit" id="btn-submit">
+            <span class="btn-submit-text">Kirim Pendaftaran ✓</span>
+            <span class="btn-spinner"></span>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- end reg-modal -->
+  </div><!-- end reg-overlay -->
+
+  <script src="register.js"></script>
+</body>
+</html>
